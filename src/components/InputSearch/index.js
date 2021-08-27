@@ -27,7 +27,7 @@ export default function InputSerach () {
       <Input placeholder='Search for a county...' onChange={handlerChange} value={inputValue} />
       <ContainerOptions>
         {allCountries.map((item, index) => (
-          (item.name.toLowerCase().indexOf(inputValue) === 0 && inputValue.length > 1) &&
+          (item.name.toLowerCase().indexOf(inputValue.toLocaleLowerCase()) === 0 && inputValue.toLocaleLowerCase().length > 1) &&
             <Option
               key={`${item.name}-${index}`}
               tabIndex={0}
