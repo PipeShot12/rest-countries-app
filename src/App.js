@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import { Theme } from './theme'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Home from './pages/Home'
+import Details from './pages/Details'
+import Header from '../src/components/Header'
+import { FilterProvider } from '../src/context/contextFilter'
+import useThemeStorage from './hooks/useThemeStorage'
 
-function App() {
+function App () {
+  const { storageTheme, setStorageTheme } = useThemeStorage('rest-countries-theme')
+  const toggle = () => setStorageTheme(storageTheme === 'light' ? 'dark' : 'light')
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeProvider theme={Theme[storageTheme]}>
+      <GlobalStyle />
+      <FilterProvider>
+        <Header setTheme={toggle} theme={storageTheme} />
+        <Router>
+          <Switch>
+            <Route path='/' component={Home} exact />
+            <Route path='/:countryName' component={Details} />
+          </Switch>
+        </Router>
+      </FilterProvider>
+    </ThemeProvider>
+
+  )
 }
 
-export default App;
+export default App
+
+const GlobalStyle = createGlobalStyle`
+body{
+  background-color: ${props => props.theme.background};
+}
+`
