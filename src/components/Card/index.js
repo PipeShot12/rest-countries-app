@@ -6,7 +6,7 @@ import { wrapWord } from '../../helpers'
 export default function Card ({ country, onClick }) {
   const { name, capital, population, flag, region } = country
   return (
-    <CardContainer onClick={onClick}>
+    <CardContainer onClick={onClick} title={name}>
       <img src={flag} alt={name} />
       <ContainerDetails>
         <h3 title={name}>{wrapWord(20, name)}</h3>
